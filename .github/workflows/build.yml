@@ -6,8 +6,8 @@ jobs:
     runs-on: ubuntu-latest
     steps: 
       - run: echo "Hello"
-      
-  Docker:  # Move Docker before setup, since it's needed in setup
+  
+  Docker:
     runs-on: ubuntu-latest
     steps:
       - run: echo "hello"
@@ -19,7 +19,7 @@ jobs:
       
   setup:
     needs: [ build, Docker, startup ]
-    uses: ./.github/workflows/setup.yaml  # Ensure this reusable workflow exists
+    uses: ./.github/workflows/setup.yaml  # Reusable workflow
 
   checkov: 
     needs: setup
@@ -29,35 +29,44 @@ jobs:
       
   plan:
     needs: checkov
-    if: success()
     runs-on: ubuntu-latest
-    strategy: 
-      fail-fast: false
-      matrix:
-        envi: [dev, stage, prod]  # Corrected variable name
     steps:
+      - name: Set up Terraform  # Install Terraform again in the plan job
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.5.0  # Specify version if necessary
+
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
-          name: test.tf  # Make sure this artifact exists from a previous step
-      - run: terraform init  # Ensure correct directory if needed
+          name: test.tf  # Download artifact from the previous setup step
+
+      - run: terraform init  # Terraform is now available
 
   apply: 
     needs: plan
-    if: success()
     runs-on: ubuntu-latest 
-    strategy: 
-      fail-fast: false
-      matrix:
-        envi: [dev, stage, prod]  # Corrected variable name
     steps:
-      - run: echo ${{ matrix.envi }}  # Make sure to reference correct matrix variable
-      
+      - name: Set up Terraform  # Install Terraform again in the apply job
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.5.0  # Specify version if necessary
+
+      - run: echo ${{ matrix.envi }}  # Now Terraform is installed in this job as well
+
   trivy: 
     needs: [ Docker, setup ]
     runs-on: ubuntu-latest  
     steps:  
-      - run: echo "hello"
+      - name: Install Trivy  # Install Trivy
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y trivy  # Install the Trivy tool
+
+      - name: Run Trivy scan
+        run: trivy --version  # Optionally, print Trivy version
+        # Add the specific Trivy scan command you want to run here
+        # Example: trivy image <image-name> or trivy filesystem <path>
       
   Dockerise: 
     needs: trivy
