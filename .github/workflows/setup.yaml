@@ -22,4 +22,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: test.tf  # Name the artifact (can be used later in other jobs)
-          path: ./test.tf  # Correct the path where the actual file is located (no spaces, and no ~)
+          path: test.tf  # Correct the path where the actual file is located (no spaces, and no ~)
