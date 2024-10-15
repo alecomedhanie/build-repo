@@ -1,29 +1,43 @@
- on:
-   - push 
- jobs: 
-   build:
-      runs-on: ubuntu-latest
-      steps: 
-        - run: echo "Hello"
-   setup:
-      runs-on: ubuntu-latest
-      steps:
-        - run: echo "hello"
-   sast: 
-      run-on: ubuntu-latest
-      steps:
-        - run: echo "hello"
-   plan: 
-     runs-on: ubuntu-latest
-     steps:
-       - run: echo "hello"
-   apply: 
-     runs-on: ubuntu-latest
-     steps:
-       - run: echo "hello"
-   Docker:
-      runs-on: ubuntu-latest
-      steps:
-        - run: echo "hello"
+on:
+  push:
+jobs: 
+  build:
+    runs-on: ubuntu-latest
+    steps: 
+      - run: echo "Hello"
+      
+  setup:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "hello"
+      
+  sast: 
+    needs: setup
+    runs-on: ubuntu-latest  
+    steps:
+      - run: echo "hello"
+      
+  plan:
+    needs: sast
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "hello"
+      
+  apply: 
+    needs: plan
+    runs-on: ubuntu-latest  
+    steps:
+      - run: echo "hello"
+      
+  Docker:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "hello"
+      
+  trivy: 
+    needs: setup
+    runs-on: ubuntu-latest  
+      - run: echo "hello"
      
        
