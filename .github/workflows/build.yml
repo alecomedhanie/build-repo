@@ -11,9 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "hello"
+      
   setup:
     needs: [ build, Docker, startup ]
-    uses: ./.github/workflows/setup.yaml
+    uses: ./.github/workflows/setup.yaml  # Ensure this path is correct for reusable workflow
       
   checkov: 
     needs: setup
@@ -28,9 +29,9 @@ jobs:
     strategy: 
       fail-fast: false
       matrix:
-        envi: [dev, stage, prod ]
+        envi: [dev, stage, prod]  # Corrected variable name
     steps:
-      - run: echo ${{ matrix.env }}
+      - run: echo ${{ matrix.envi }}  # Corrected variable reference
       
   apply: 
     needs: plan
@@ -39,9 +40,9 @@ jobs:
     strategy: 
       fail-fast: false
       matrix:
-        envi: [dev, stage, prod ] 
+        envi: [dev, stage, prod]  # Corrected variable name
     steps:
-      - run: ${{ matrix.env }}
+      - run: echo ${{ matrix.envi }}  # Corrected variable reference
       
   Docker:
     runs-on: ubuntu-latest
@@ -53,10 +54,9 @@ jobs:
     runs-on: ubuntu-latest  
     steps:  
       - run: echo "hello"
+      
   Dockerise: 
     needs: trivy
     runs-on: ubuntu-latest  
     steps:  
-      - run: echo "hello"    
-     
-       
+      - run: echo "hello"
