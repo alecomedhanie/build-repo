@@ -2,20 +2,24 @@ name: setup
 
 on:
   workflow_call
+
 jobs:
   init:
     runs-on: ubuntu-latest
     steps:
-      - name: clone repo
-        uses: actions/checkout@v4
+      - name: Clone repository
+        uses: actions/checkout@v4  # Clones the repository with Terraform config files
+
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v1
         with:
-           terraform_version: 1.5.0
+          terraform_version: 1.5.0  # Installs Terraform with version 1.5.0 (optional)
+
       - name: Initialize Terraform
-        run: terraform init
-      - name: upload artifact
+        run: terraform init  # Initializes Terraform, downloads providers and modules
+
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
-        with: 
-           name: test.tf
-           path: test.tf
+        with:
+          name: test.tf  # Name the artifact (can be used later in other jobs)
+          path: ./test.tf  # Correct the path where the actual file is located (no spaces, and no ~)
