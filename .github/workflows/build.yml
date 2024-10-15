@@ -40,5 +40,10 @@ jobs:
     runs-on: ubuntu-latest  
     steps:  
       - run: echo "hello"
+  Dockerise: 
+    needs: trivy
+    runs-on: ubuntu-latest  
+    steps:  
+      - run: echo "hello"    
      
        
