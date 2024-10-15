@@ -25,6 +25,17 @@ jobs:
     needs: setup
     runs-on: ubuntu-latest  
     steps:
+      - name: Set up Terraform  # Install Terraform again in the plan job
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.5.0  # Specify version if necessary
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: test.tf  # Download artifact from the previous setup step
+
+      - run: terraform init 
       - run: terraform fmt -check
       
   plan:
