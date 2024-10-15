@@ -25,7 +25,7 @@ jobs:
     needs: setup
     runs-on: ubuntu-latest  
     steps:
-      - run: echo "hello"
+      - run: teraform fmt-check
       
   plan:
     needs: checkov
