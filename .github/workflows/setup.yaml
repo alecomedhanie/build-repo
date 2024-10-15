@@ -8,8 +8,10 @@ jobs:
     steps:
       - name: clone repo
         uses: actions/checkout@v4
-      - name: set up terraform
+      - name: Set up Terraform
         uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.5.0
       - name: initialize Terraform
         run: terraform init
       - name: upload
