@@ -58,15 +58,7 @@ jobs:
     needs: [ Docker, setup ]
     runs-on: ubuntu-latest  
     steps:  
-      - name: Install Trivy  # Install Trivy
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y trivy  # Install the Trivy tool
-
-      - name: Run Trivy scan
-        run: trivy --version  # Optionally, print Trivy version
-        # Add the specific Trivy scan command you want to run here
-        # Example: trivy image <image-name> or trivy filesystem <path>
+      - run: echo "hello"
       
   Dockerise: 
     needs: trivy
