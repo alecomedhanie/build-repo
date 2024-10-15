@@ -12,23 +12,31 @@ jobs:
     steps:
       - run: echo "hello"
       
-  sast: 
+  checkov: 
     needs: setup
     runs-on: ubuntu-latest  
     steps:
       - run: echo "hello"
       
   plan:
-    needs: sast
+    needs: checkov
     runs-on: ubuntu-latest
+    strategy: 
+      fail-fast: false
+      matrix:
+        envi: [dev, stage, prod ]
     steps:
-      - run: echo "hello"
+      - run: echo ${{ matrix.env }}
       
   apply: 
     needs: plan
-    runs-on: ubuntu-latest  
+    runs-on: ubuntu-latest 
+    strategy: 
+      fail-fast: false
+      matrix:
+        envi: [dev, stage, prod ] 
     steps:
-      - run: echo "hello"
+      - run: ${{ matrix.env }}
       
   Docker:
     runs-on: ubuntu-latest
