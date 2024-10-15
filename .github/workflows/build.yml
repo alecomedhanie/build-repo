@@ -1,78 +1,56 @@
 on:
   push:
-  
-jobs: 
+
+jobs:
   build:
     runs-on: ubuntu-latest
     steps: 
-      - run: echo "Hello"
+      - run: echo "Hello"  # Simple step in the build job
   
   Docker:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "hello"
+      - run: echo "hello"  # Simple step in the Docker job
       
   startup:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "hello"
-      
-  setup:
-    needs: [ build, Docker, startup ]
-    uses: ./.github/workflows/setup.yaml  # Reusable workflow
+      - run: echo "hello"  # Simple step in the startup job
+
+  setup:  # Use setup.yaml to install and initialize Terraform
+    needs: [build, Docker, startup]
+    uses: ./.github/workflows/setup.yaml  # Calls the reusable workflow to install and initialize Terraform
 
   checkov: 
-    needs: setup
+    needs: setup  # Depends on the setup job, so it will run after setup completes
     runs-on: ubuntu-latest  
     steps:
-      - name: Set up Terraform  # Install Terraform again in the plan job
-        uses: hashicorp/setup-terraform@v1
-        with:
-          terraform_version: 1.5.0  # Specify version if necessary
+      - name: Run Terraform formatting check
+        run: terraform fmt -check  # Check if the Terraform files are formatted correctly
 
-      - name: Download artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: test.tf  # Download artifact from the previous setup step
-
-      - run: terraform init 
-      - run: terraform fmt -check
-      
   plan:
-    needs: checkov
+    needs: checkov  # Depends on the checkov job, so it will run after checkov completes
     runs-on: ubuntu-latest
     steps:
-      - name: Set up Terraform  # Install Terraform again in the plan job
-        uses: hashicorp/setup-terraform@v1
-        with:
-          terraform_version: 1.5.0  # Specify version if necessary
-
-      - name: Download artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: test.tf  # Download artifact from the previous setup step
-
-      - run: terraform init  # Terraform is now available
+      - name: Plan Terraform changes
+        run: terraform plan  # Runs Terraform plan to check infrastructure changes
 
   apply: 
-    needs: plan
+    needs: plan  # Depends on the plan job, so it will run after plan completes
     runs-on: ubuntu-latest 
     steps:
-      - name: Set up Terraform  # Install Terraform again in the apply job
-        uses: hashicorp/setup-terraform@v1
-        with:
-          terraform_version: 1.5.0  # Specify version if necessary
-
-      - run: echo ${{ matrix.envi }}  # Now Terraform is installed in this job as well
+      - name: Apply Terraform changes
+        run: terraform apply -auto-approve  # Apply Terraform changes without manual approval
 
   trivy: 
-    needs: [ Docker, setup ]
+    needs: [Docker, setup]  # Depends on Docker and setup jobs
     runs-on: ubuntu-latest  
     steps:  
-      - run: echo "hello"
-      
+      - name: Install and Run Trivy
+        run: echo "Running Trivy scan here"  # Placeholder for the Trivy scan
+
   Dockerise: 
-    needs: trivy
+    needs: trivy  # Depends on the trivy job, so it will run after trivy completes
     runs-on: ubuntu-latest  
     steps:  
-      - run: echo "hello"
+      - run: echo "Dockerization step here"  # Placeholder for the Dockerization step
