@@ -6,8 +6,9 @@ jobs:
   init:
     runs-on: ubuntu-latest
     steps:
-    - name: clone repo
-      uses: action/checkout@v4
-    - name: set up terraform
-      uses: hashicorp/setup-terraform@v1
-    - name: initialise   
+      - name: clone repo
+        uses: action/checkout@v4
+      - name: set up terraform
+        uses: hashicorp/setup-terraform@v1
+      - name: initialize Terraform
+        run: terraform init
