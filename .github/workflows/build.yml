@@ -1,10 +1,16 @@
 on:
   push:
+  
 jobs: 
   build:
     runs-on: ubuntu-latest
     steps: 
       - run: echo "Hello"
+      
+  Docker:  # Move Docker before setup, since it's needed in setup
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "hello"
       
   startup:
     runs-on: ubuntu-latest
@@ -13,8 +19,8 @@ jobs:
       
   setup:
     needs: [ build, Docker, startup ]
-    uses: ./.github/workflows/setup.yaml 
-      
+    uses: ./.github/workflows/setup.yaml  # Ensure this reusable workflow exists
+
   checkov: 
     needs: setup
     runs-on: ubuntu-latest  
@@ -33,9 +39,9 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
-          name: test.tf
-      - run: terraform init # Corrected variable reference
-      
+          name: test.tf  # Make sure this artifact exists from a previous step
+      - run: terraform init  # Ensure correct directory if needed
+
   apply: 
     needs: plan
     if: success()
@@ -45,12 +51,7 @@ jobs:
       matrix:
         envi: [dev, stage, prod]  # Corrected variable name
     steps:
-      - run: echo ${{ matrix.envi }}  # Corrected variable reference
-      
-  Docker:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "hello"
+      - run: echo ${{ matrix.envi }}  # Make sure to reference correct matrix variable
       
   trivy: 
     needs: [ Docker, setup ]
