@@ -31,7 +31,11 @@ jobs:
       matrix:
         envi: [dev, stage, prod]  # Corrected variable name
     steps:
-      - run: echo ${{ matrix.envi }}  # Corrected variable reference
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: test.tf
+      - run: terraform init # Corrected variable reference
       
   apply: 
     needs: plan
