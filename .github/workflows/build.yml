@@ -1,8 +1,5 @@
 on:
   push:
-permissions:
-  id-token: write # This is required for requesting the JWT
-  
 
 jobs:
   build:
@@ -41,11 +38,6 @@ jobs:
           name: test
       - name: intialize terraform
         run: terraform init
-      - name: Configure AWS credentials 
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-            role-to-assume: arn:aws:iam::203918868115:role/github.to.aws.cicd
-            aws-region: us-east-2 
       - name: Plan Terraform changes
         run: terraform plan  # Runs Terraform plan to check infrastructure changes
 
@@ -58,12 +50,7 @@ jobs:
         with:
           name: test
       - name: intialize terraform
-        run: terraform init
-      - name: Configure AWS credentials 
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-            role-to-assume: arn:aws:iam::203918868115:role/github.to.aws.cicd
-            aws-region: us-east-2     
+        run: terraform init    
       - name: Apply Terraform changes
         run: terraform apply -auto-approve  # Apply Terraform changes without manual approval
 
