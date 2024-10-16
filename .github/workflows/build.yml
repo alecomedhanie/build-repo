@@ -35,7 +35,7 @@ jobs:
       - name: Download Terraform artifact
         uses: actions/download-artifact@v4
         with:
-          name: test.tf
+          name: test
       - name: Plan Terraform changes
         run: terraform plan  # Runs Terraform plan to check infrastructure changes
 
@@ -46,7 +46,7 @@ jobs:
       - name: Download Terraform artifact
         uses: actions/download-artifact@v4
         with:
-          name: test.tf
+          name: test
       - name: Apply Terraform changes
         run: terraform apply -auto-approve  # Apply Terraform changes without manual approval
 
