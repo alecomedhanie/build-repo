@@ -32,6 +32,10 @@ jobs:
     needs: checkov  # Depends on the checkov job, so it will run after checkov completes
     runs-on: ubuntu-latest
     steps:
+      - name: Download Terraform artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: terraform-files
       - name: Plan Terraform changes
         run: terraform plan  # Runs Terraform plan to check infrastructure changes
 
