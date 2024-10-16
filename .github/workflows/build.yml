@@ -29,8 +29,13 @@ jobs:
         run: terraform fmt -check  # Check if the Terraform files are formatted correctly
 
   plan:
-    needs: checkov  # Depends on the checkov job, so it will run after checkov completes
+    needs: checkov 
+    if: success() # Depends on the checkov job, so it will run after checkov completes
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        envi: [ dev, stage, pro ]
     steps:
       - name: Download Terraform artifact
         uses: actions/download-artifact@v4
