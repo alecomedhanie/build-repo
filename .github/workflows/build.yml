@@ -43,6 +43,10 @@ jobs:
     needs: plan  # Depends on the plan job, so it will run after plan completes
     runs-on: ubuntu-latest 
     steps:
+      - name: Download Terraform artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: test.tf
       - name: Apply Terraform changes
         run: terraform apply -auto-approve  # Apply Terraform changes without manual approval
 
