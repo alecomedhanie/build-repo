@@ -45,6 +45,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v2
         with:
             role-to-assume: arn:aws:iam::203918868115:role/github.to.aws.cicd
+            aws-region: us-east-2 
       - name: Plan Terraform changes
         run: terraform plan  # Runs Terraform plan to check infrastructure changes
 
