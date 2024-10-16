@@ -22,5 +22,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: test  # Name the artifact (can be used later in other jobs)
-          path: |
-            .  # Correct the path where the actual file is located (no spaces, and no ~)
+          path: ./.github/workflows/
+              # Correct the path where the actual file is located (no spaces, and no ~)
