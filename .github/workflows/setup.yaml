@@ -1,4 +1,4 @@
-name: setup
+
 
 on:
   workflow_call
