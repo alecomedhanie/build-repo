@@ -25,7 +25,7 @@ jobs:
 
   checkov: 
     needs: setup # Depends on the setup job, so it will run after setup completes
-    uses: alecomedhanie/shared-workflows/.github/workflows/setup.yaml@main
+    uses: alecomedhanie/shared-workflows/.github/workflows/setup.tests@main
    # Check if the Terraform files are formatted correctly
 
   plan:
