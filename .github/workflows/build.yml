@@ -23,17 +23,20 @@ jobs:
     needs: [build, Docker, startup]
     uses: alecomedhanie/build-repo/.github/workflows/setup.yaml@main  # Calls the reusable workflow to install and initialize Terraform
 
-  checkov: 
-    needs: setup
-    runs-on: ubuntu-latest
-    steps:
-      - name: Configure AWS credentials 
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-            role-to-assume: arn:aws:iam::203918868115:role/github.to.aws.cicd  
-            aws-region: us-east-2 # Depends on the setup job, so it will run after setup completes
-            uses: alecomedhanie/build-repo/.github/workflows/tests.yaml@main
-   # scun/Check if the Terraform files are formatted correctly
+ checkov-auth:
+  needs: setup
+  runs-on: ubuntu-latest
+  steps:
+    - name: Configure AWS credentials 
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        role-to-assume: arn:aws:iam::203918868115:role/github.to.aws.cicd
+        aws-region: us-east-2
+
+checkov:
+  needs: checkov-auth  # This job will run after the AWS credentials are configured
+  uses: alecomedhanie/build-repo/.github/workflows/tests.yaml@main  # Reusable workflow for Checkov# Depends on the setup job, so it will run after setup completes
+         
 
   plan:
     needs: checkov 
