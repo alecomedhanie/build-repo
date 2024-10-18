@@ -19,8 +19,9 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: test # Name the artifact (can be used later in other jobs)
+          name: terraform-artifacts  # Name the artifact
           path: |
-            **/* 
+            **/*           
+            .terraform.lock.hcl  
 
               # Correct the path where the actual file is located (no spaces, and no ~)
