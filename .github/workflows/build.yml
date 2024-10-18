@@ -31,7 +31,7 @@ jobs:
 
   plan:
     needs: checkov 
-    if: success() # Depends on the checkov job, so it will run after checkov completes
+     # Depends on the checkov job, so it will run after checkov completes
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
