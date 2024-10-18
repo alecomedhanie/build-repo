@@ -23,14 +23,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: test  # Name the artifact
-          path: |
-            .terraform.lock.hcl  
-            test.tf  
-            .terraform/**/*  
-
-      - name: Download artifact for verification
-        uses: actions/download-artifact@v4
-        with:
-          name: test  # Ensure the artifact name matches what was uploaded 
-
-              # Correct the path where the actual file is located (no spaces, and no ~)
+          path: ./    # Ensure the artifact name matches what was uploaded 
