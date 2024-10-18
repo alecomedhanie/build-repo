@@ -5,18 +5,24 @@ resource "aws_vpc" "my_vpc" {
 resource "aws_default_security_group" "default" {
   vpc_id = aws_vpc.my_vpc.id
 
+  # Block all inbound traffic
   ingress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = []
+    cidr_blocks = ["0.0.0.0/0"]  # Restrict all inbound traffic
+    security_groups = []
+    self = false
   }
 
+  # Block all outbound traffic
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = []
+    cidr_blocks = ["0.0.0.0/0"]  # Restrict all outbound traffic
+    security_groups = []
+    self = false
   }
 }
 
