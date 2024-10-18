@@ -1,94 +1,87 @@
-name: Terraform and AWS Deployment
-
 on:
   push:
-
 permissions:
-  id-token: write  # Required for requesting the JWT
-  contents: read
+ id-token: write # This is required for requesting the JWT
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    steps:
-      - run: echo "Hello from build"  # Simple step in the build job
-
+    steps: 
+      - run: echo "Hello"  # Simple step in the build job
+  
   Docker:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Hello from Docker"  # Simple step in the Docker job
-
+      - run: echo "hello"  # Simple step in the Docker job
+      
   startup:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Hello from startup"  # Simple step in the startup job
+      - run: echo "hello"  # Simple step in the startup job
 
-  setup:
+  setup:  # Use setup.yaml to install and initialize Terraform
     needs: [build, Docker, startup]
     uses: alecomedhanie/build-repo/.github/workflows/setup.yaml@main  # Calls the reusable workflow to install and initialize Terraform
 
-  checkov:
-    needs: setup  # This job will run after setup completes
-    runs-on: ubuntu-latest
+  checkov: 
+    needs: setup
     steps:
       - name: Configure AWS credentials 
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: arn:aws:iam::203918868115:role/github.to.aws.cicd
-          aws-region: us-east-2
-
-      - name: Run Checkov Tests
-        uses: alecomedhanie/build-repo/.github/workflows/tests.yaml@main  # Calls reusable workflow for Checkov tests
+            role-to-assume: arn:aws:iam::203918868115:role/github.to.aws.cicd  
+            aws-region: us-east-2# Depends on the setup job, so it will run after setup completes
+            uses: alecomedhanie/build-repo/.github/workflows/tests.yaml@main
+   # scun/Check if the Terraform files are formatted correctly
 
   plan:
-    needs: checkov  # This will run after checkov completes
+    needs: checkov 
+    if: success() # Depends on the checkov job, so it will run after checkov completes
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        envi: [dev, stage, prod]
+        envi: [ dev, stage, pro ]
     steps:
       - name: Download Terraform artifact
         uses: actions/download-artifact@v4
         with:
-          name: test
-
+           name: test
+      
       - name: Configure AWS credentials 
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: arn:aws:iam::203918868115:role/github.to.aws.cicd
-          aws-region: us-east-2
-
+            role-to-assume: arn:aws:iam::203918868115:role/github.to.aws.cicd  
+            aws-region: us-east-2
       - name: Plan Terraform changes
         run: terraform plan  # Runs Terraform plan to check infrastructure changes
 
-  apply:
-    needs: plan  # This job will run after the plan completes
-    runs-on: ubuntu-latest
+  apply: 
+    needs: plan  # Depends on the plan job, so it will run after plan completes
+    runs-on: ubuntu-latest 
     steps:
       - name: Download Terraform artifact
         uses: actions/download-artifact@v4
         with:
-          name: test
+           name: test 
 
       - name: Configure AWS credentials 
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: arn:aws:iam::203918868115:role/github.to.aws.cicd
-          aws-region: us-east-2
-
+            role-to-assume: arn:aws:iam::203918868115:role/github.to.aws.cicd     
+            aws-region: us-east-2 
       - name: Apply Terraform changes
         run: terraform apply -auto-approve  # Apply Terraform changes without manual approval
 
-  trivy:
+  trivy: 
     needs: [Docker, setup]  # Depends on Docker and setup jobs
-    runs-on: ubuntu-latest
-    steps:
+    runs-on: ubuntu-latest  
+    steps:  
       - name: Install and Run Trivy
-        run: echo "Running Trivy scan here"  # Placeholder for Trivy scan
+        run: echo "Running Trivy scan here"  # Placeholder for the Trivy scan
 
-  Dockerise:
-    needs: trivy  # Depends on the trivy job, will run after trivy completes
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "Dockerization step here"  # Placeholder for Dockerization step
+  Dockerise: 
+    needs: trivy  # Depends on the trivy job, so it will run after trivy completes
+    runs-on: ubuntu-latest  
+    steps:  
+      - run: echo "Dockerization step here"  # Placeholder for the Dockerization step
