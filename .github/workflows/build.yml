@@ -30,6 +30,7 @@ jobs:
          
 
   plan:
+    needs: setup
      # Depends on the checkov job, so it will run after checkov completes
     runs-on: ubuntu-latest
     strategy:
