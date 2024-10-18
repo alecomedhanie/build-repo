@@ -14,7 +14,10 @@ jobs:
         uses: hashicorp/setup-terraform@v1
 
       - name: Initialise
-        run: terraform init  # Initializes Terraform, downloads providers and modules
+        run: terraform init
+        
+      - name: List directory contents
+        run: ls -la # Initializes Terraform, downloads providers and modules
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
