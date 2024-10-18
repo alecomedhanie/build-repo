@@ -31,7 +31,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v2
         with:
             role-to-assume: arn:aws:iam::203918868115:role/github.to.aws.cicd  
-            aws-region: us-east-2# Depends on the setup job, so it will run after setup completes
+            aws-region: us-east-2 # Depends on the setup job, so it will run after setup completes
             uses: alecomedhanie/build-repo/.github/workflows/tests.yaml@main
    # scun/Check if the Terraform files are formatted correctly
 
