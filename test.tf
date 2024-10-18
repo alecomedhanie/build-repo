@@ -22,7 +22,7 @@ resource "aws_default_security_group" "default" {
   ingress {
     from_port   = 0
     to_port     = 0
-    protocol    = "-1"  # This means all protocols are blocked
+    protocol    = "-1"  # Block all protocols
     cidr_blocks = ["0.0.0.0/0"]  # Block traffic from all sources
   }
 
@@ -30,11 +30,25 @@ resource "aws_default_security_group" "default" {
   egress {
     from_port   = 0
     to_port     = 0
-    protocol    = "-1"  # This means all protocols are blocked
+    protocol    = "-1"  # Block all protocols
     cidr_blocks = ["0.0.0.0/0"]  # Block traffic to all destinations
   }
 
   tags = {
     Name = "restricted-default-security-group"
   }
+}
+
+# Enable VPC Flow Logs
+resource "aws_flow_log" "vpc_flow_log" {
+  log_destination_type = "cloud-watch-logs"
+  vpc_id               = aws_vpc.my_vpc.id
+  traffic_type         = "ALL"  # Capture all traffic (ingress and egress)
+  log_group_name       = aws_cloudwatch_log_group.vpc_flow_logs.name
+}
+
+# CloudWatch Log Group for VPC Flow Logs
+resource "aws_cloudwatch_log_group" "vpc_flow_logs" {
+  name              = "vpc-flow-logs"
+  retention_in_days = 365  # Retain logs for 1 year
 }
