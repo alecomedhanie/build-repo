@@ -21,11 +21,11 @@ jobs:
 
   setup:  # Use setup.yaml to install and initialize Terraform
     needs: [build, Docker, startup]
-    uses: alecomedhanie/build-repo/.github/workflows/setup.yaml@main  # Calls the reusable workflow to install and initialize Terraform
+    uses: alecomedhanie/shared-workflows/.github/workflows/setup.yaml@main  # Calls the reusable workflow to install and initialize Terraform
 
   checkov: 
     needs: setup # Depends on the setup job, so it will run after setup completes
-    uses: alecomedhanie/build-repo/.github/workflows/tests.yaml@main
+    uses: alecomedhanie/shared-workflows/.github/workflows/tests.yaml@main
    # scun/Check if the Terraform files are formatted correctly
 
   plan:
