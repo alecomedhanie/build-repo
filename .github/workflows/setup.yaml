@@ -22,7 +22,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: terraform-artifacts  # Name the artifact
+          name: test  # Name the artifact
           path: |
             **/*           
             .terraform.lock.hcl  
