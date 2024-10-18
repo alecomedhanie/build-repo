@@ -6,20 +6,17 @@ resource "aws_default_security_group" "default" {
   vpc_id = aws_vpc.my_vpc.id
 
 
+   lifecycle {
+    # Allow this security group to be managed by AWS, but remove the default rules
+    create_before_destroy = true
+  }
+
   ingress {
-    protocol  = "-1"
-    self      = false
-    cidr_blocks = ["0.0.0.0/0"]
-    from_port = 0
-    to_port   = 0
-   }
+    # Prevent any traffic by leaving this empty
+  }
 
   egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-    self = false
+    # Prevent any traffic by leaving this empty
   }
 }
 
