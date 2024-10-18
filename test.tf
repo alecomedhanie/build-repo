@@ -10,9 +10,8 @@ resource "aws_default_security_group" "default" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]  # Restrict all inbound traffic
-    security_groups = []
-    self = false
+    cidr_blocks = ["0.0.0.0/0"]  # Block all incoming traffic
+    self = false  # Prevent default security group from allowing its own traffic
   }
 
   # Block all outbound traffic
@@ -20,9 +19,8 @@ resource "aws_default_security_group" "default" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]  # Restrict all outbound traffic
-    security_groups = []
-    self = false
+    cidr_blocks = ["0.0.0.0/0"]  # Block all outgoing traffic
+    self = false  # Prevent outbound traffic
   }
 }
 
