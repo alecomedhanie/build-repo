@@ -13,17 +13,18 @@ resource "aws_default_security_group" "default" {
   vpc_id = aws_vpc.my_vpc.id
 
   # Restrict ingress (block all inbound traffic)
-  ingress {
+ ingress {
     protocol  = "-1"
-    self      = true
     from_port = 0
     to_port   = 0
- }
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
+  # Block all outbound traffic
   egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
+    protocol  = "-1"
+    from_port = 0
+    to_port   = 0
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
