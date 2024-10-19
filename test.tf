@@ -16,19 +16,16 @@ resource "aws_default_security_group" "default" {
   # checkov:skip=CKV2_AWS_12: False positive or handled elsewhere
 
   # Restrict ingress (block all inbound traffic)
- ingress {
-    protocol  = "-1"
-    from_port = 0
-    to_port   = 0
-    cidr_blocks = ["0.0.0.0/0"]
+  ingress {}
+
+  egress {}
+
+  lifecycle {
+    create_before_destroy = true
   }
 
-  # Block all outbound traffic
-  egress {
-    protocol  = "-1"
-    from_port = 0
-    to_port   = 0
-    cidr_blocks = ["0.0.0.0/0"]
+  tags = {
+    Name = "restricted-default-security-group"
   }
 }
 
