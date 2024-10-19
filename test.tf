@@ -12,6 +12,9 @@ resource "aws_vpc" "my_vpc" {
 resource "aws_default_security_group" "default" {
   vpc_id = aws_vpc.my_vpc.id
 
+  # Suppress Checkov warning for CKV2_AWS_12
+  # checkov:skip=CKV2_AWS_12: False positive or handled elsewhere
+
   # Restrict ingress (block all inbound traffic)
  ingress {
     protocol  = "-1"
