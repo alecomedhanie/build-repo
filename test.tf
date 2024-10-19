@@ -49,7 +49,7 @@ resource "aws_kms_key" "log_group_key" {
       {
         "Effect": "Allow",
         "Principal": {
-          "AWS": "arn:aws:iam::YOUR_ACCOUNT_ID:root"
+          "AWS": "arn:aws:iam::203918868115:role/github.to.aws.cicd"
         },
         "Action": "kms:*",
         "Resource": "*"
