@@ -40,23 +40,22 @@ resource "aws_flow_log" "vpc_flow_log" {
 # KMS Key for Encrypting CloudWatch Logs
 resource "aws_kms_key" "log_group_key" {
   description         = "KMS key for encrypting CloudWatch Log Group"
-  enable_key_rotation = true  # Best practice to enable key rotation
-
-  policy = <<EOF
+  policy              = <<POLICY
   {
-    "Version": "2012-10-17",
-    "Statement": [
-      {
-        "Effect": "Allow",
-        "Principal": {
-          "AWS": "arn:aws:iam::203918868115:role/github.to.aws.cicd"
+     "Version": "2012-10-17", 
+     "Id": "default", 
+     "Statement": [ 
+         { 
+           "Sid": "DefaultAllow", 
+           "Effect": "Allow", "Principal": {
+           "AWS": "arn:aws:iam::YOUR_ACCOUNT_ID:root" # replace it with ur ARN
         },
         "Action": "kms:*",
         "Resource": "*"
       }
     ]
   }
-  EOF
+POLICY
 }
 
 # CloudWatch Log Group for VPC Flow Logs
