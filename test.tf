@@ -12,29 +12,20 @@ resource "aws_vpc" "my_vpc" {
 resource "aws_default_security_group" "default" {
   vpc_id = aws_vpc.my_vpc.id
 
-  lifecycle {
-    create_before_destroy = true
-  }
-
   # Restrict ingress (block all inbound traffic)
-  ingress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"  # Block all protocols
-    cidr_blocks = ["0.0.0.0/0"]  # Block traffic from all sources
-  }
+  -  ingress {
+-    protocol  = "-1"
+-    self      = true
+-    from_port = 0
+-    to_port   = 0
+-  }
 
-  # Restrict egress (block all outbound traffic)
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"  # Block all protocols
-    cidr_blocks = ["0.0.0.0/0"]  # Block traffic to all destinations
-  }
-
-  tags = {
-    Name = "restricted-default-security-group"
-  }
+-  egress {
+-    from_port   = 0
+-    to_port     = 0
+-    protocol    = "-1"
+-    cidr_blocks = ["0.0.0.0/0"]
+-  }
 }
 
 # Enable VPC Flow Logs
