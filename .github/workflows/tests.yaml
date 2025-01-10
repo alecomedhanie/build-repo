@@ -14,6 +14,9 @@ jobs:
           role-to-assume: arn:aws:iam::203918868115:role/github.to.aws.cicd
           aws-region: us-east-2
           
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2    
+          
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
@@ -21,8 +24,6 @@ jobs:
         
       - name: List downloaded files
         run: ls -la 
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v2
         
       - run: terraform fmt 
       - name: Checkov GitHub Action
