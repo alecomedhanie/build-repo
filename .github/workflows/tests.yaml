@@ -14,7 +14,7 @@ jobs:
           role-to-assume: arn:aws:iam::203918868115:role/github.to.aws.cicd
           aws-region: us-east-2
       - name: Download artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
       - name: List downloaded files
         run: ls -la 
       #  with:
