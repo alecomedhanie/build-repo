@@ -26,4 +26,5 @@ jobs:
           path: |
             ./.terraform.lock.hcl
             ./test.tf
-            ./.terraform
+            ./.terraform/** 
+      
