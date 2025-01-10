@@ -17,15 +17,11 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
-          name: test.zip
+          name: test.
         
       - name: List downloaded files
         run: ls -la 
-        
-      - name: Verify zip file contents
-        run: unzip test.zip -d test
-      #  with:
-       #   name: test
+      
       - run: terraform init 
       - run: terraform fmt 
       - name: Checkov GitHub Action
