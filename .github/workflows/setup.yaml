@@ -15,6 +15,8 @@ jobs:
 
       - name: Initialise
         run: terraform init
+      - name: Zip files for artifact
+        run: zip -r test.zip .terraform.lock.hcl test.tf .terraform/  
         
       - name: List directory contents
         run: ls -la # Initializes Terraform, downloads providers and modules
@@ -23,8 +25,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: test  # Name the artifact
-          path: |
-            ./.terraform.lock.hcl
-            ./test.tf
-            ./.terraform/** 
+          path: test.zip
+          #path: |
+            #./.terraform.lock.hcl
+            #./test.tf
+            #./.terraform
       
