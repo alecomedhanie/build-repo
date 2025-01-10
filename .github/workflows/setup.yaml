@@ -17,6 +17,8 @@ jobs:
         run: terraform init
       - name: Zip files for artifact
         run: zip -r test.zip .terraform.lock.hcl test.tf .terraform/  
+      - name: Verify zip file contents before upload
+        run: unzip -l test.zip
         
       - name: List directory contents
         run: ls -la # Initializes Terraform, downloads providers and modules
