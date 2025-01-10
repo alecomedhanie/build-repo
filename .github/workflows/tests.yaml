@@ -18,7 +18,7 @@ jobs:
       - name: List downloaded files
         run: ls -la test
       - name: Verify zip file contents
-        run: unzip -l test.zip  
+        run: unzip -l test1.zip  
       #  with:
        #   name: test
       - run: terraform fmt
