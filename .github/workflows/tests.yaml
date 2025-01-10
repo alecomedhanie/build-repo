@@ -21,8 +21,9 @@ jobs:
         
       - name: List downloaded files
         run: ls -la 
-      
-      - run: terraform init 
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+        
       - run: terraform fmt 
       - name: Checkov GitHub Action
         uses: bridgecrewio/checkov-action@v12
