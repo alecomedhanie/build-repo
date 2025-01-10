@@ -14,7 +14,9 @@ jobs:
         uses: hashicorp/setup-terraform@v2
 
       - name: Initialise
-        run: terraform init
+        run: |
+          terraform init
+          sleep 10  
         
       - name: Zip files for artifact
         run: zip -r test.zip .terraform.lock.hcl test.tf .terraform/ -x "*.terraform/providers/*"
