@@ -19,7 +19,7 @@ jobs:
           sleep 10  
         
       - name: Zip files for artifact
-        run: zip -r test.zip .terraform.lock.hcl test.tf .terraform/ -x "*.terraform/providers/*"
+        run: zip -r test.zip .terraform.lock.hcl test.tf .terraform/ -x ".terraform/providers/**"
         
       - name: Verify zip file contents before upload
         run: unzip -l test.zip
