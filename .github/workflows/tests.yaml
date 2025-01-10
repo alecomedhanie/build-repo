@@ -17,6 +17,8 @@ jobs:
         uses: actions/download-artifact@v4
       - name: List downloaded files
         run: ls -la test
+      - name: Verify zip file contents
+        run: unzip -l test.zip  
       #  with:
        #   name: test
       - run: terraform fmt
