@@ -14,9 +14,11 @@ jobs:
           role-to-assume: arn:aws:iam::203918868115:role/github.to.aws.cicd
           aws-region: us-east-2
       - name: Download artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: test
+        uses: actions/download-artifact@v2
+      - name: List downloaded files
+        run: ls -la 
+      #  with:
+       #   name: test
       - run: terraform fmt
       - name: Checkov GitHub Action
         uses: bridgecrewio/checkov-action@v12
