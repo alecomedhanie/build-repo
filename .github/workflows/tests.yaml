@@ -17,13 +17,13 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
-          name: test1.zip
+          name: test.zip
         
       - name: List downloaded files
         run: ls -la 
         
       - name: Verify zip file contents
-        run: unzip test1.zip -d test1
+        run: unzip test.zip -d test
       #  with:
        #   name: test
       - run: terraform fmt
