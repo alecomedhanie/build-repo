@@ -13,12 +13,17 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::203918868115:role/github.to.aws.cicd
           aws-region: us-east-2
+          
       - name: Download artifacts
         uses: actions/download-artifact@v4
+        with:
+          name: test1.zip
+        
       - name: List downloaded files
-        run: ls -la test
+        run: ls -la 
+        
       - name: Verify zip file contents
-        run: unzip -l test1.zip  
+        run: unzip test1.zip -d test1
       #  with:
        #   name: test
       - run: terraform fmt
