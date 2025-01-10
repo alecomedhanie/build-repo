@@ -26,7 +26,8 @@ jobs:
         run: unzip test.zip -d test
       #  with:
        #   name: test
-      - run: terraform fmt test
+      - run: terraform init 
+      - run: terraform fmt 
       - name: Checkov GitHub Action
         uses: bridgecrewio/checkov-action@v12
         with:
