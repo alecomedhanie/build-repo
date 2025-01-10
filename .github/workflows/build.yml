@@ -41,7 +41,7 @@ jobs:
       - name: Download Terraform artifact
         uses: actions/download-artifact@v4
         with:
-           name: test
+           name: test1
      
       - name: Configure AWS credentials 
         uses: aws-actions/configure-aws-credentials@v2
@@ -60,7 +60,7 @@ jobs:
       - name: Download Terraform artifact
         uses: actions/download-artifact@v4
         with:
-           name: test 
+           name: test1 
 
       - name: Configure AWS credentials 
         uses: aws-actions/configure-aws-credentials@v2
