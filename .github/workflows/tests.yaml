@@ -16,7 +16,7 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
-          name: tests
+          name: test
       - run: terraform fmt
       - name: Checkov GitHub Action
         uses: bridgecrewio/checkov-action@v12
